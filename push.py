@@ -44,8 +44,7 @@ def push(msg, url=None, article=None, latitude=None, longitude=None, notificatio
 	try:
 		req = Request('http://api.push.co//1.0/push', data.encode('UTF-8'))
 		res = opener.open(req)
-		data = res.read()
-		print(data)
+		data = res.read()		
 		# I could check this for "success":true
 	except HTTPError:
-		print("Your message may be too long.")
+		print("Error: Your message may be too long (Or with their server).")
