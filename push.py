@@ -4,20 +4,22 @@ if api_key == "API_KEY":
 	print("You have not set your API_KEY, go to http://push.co/apps")
 	import sys;sys.exit(1)
 
-def pushMessage(msg, url=None):	
+def push(msg, url=None, article=None):
 	# because push must be 140 characters
 	if (len(msg) > 140):
 		print("Your message has been truncated.")
 	message = msg[0:140]
 	opener = urllib2.build_opener()
 	forms = {
-			 "message": message ,
-	         "api_key": api_key,
-	         "api_secret"        : api_secret	                  
+			 "message"    : message,
+	         "api_key"    : api_key,
+	         "api_secret" : api_secret	                  
 	        }
 	if url is not None:
 		forms['url'] = url
 		forms["view_type"] = 1
+	elif article is not None:
+		forms['article'] = article
 		
 	data = urllib.urlencode(forms)
 	try:
