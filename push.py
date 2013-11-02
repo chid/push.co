@@ -1,5 +1,11 @@
-import urllib
-import urllib2
+try:
+    from urllib.request import urlopen, build_opener, Request
+    from urllib.parse import urlparse, urlencode
+    from urllib.error import HTTPError
+except ImportError:
+    from urlparse import urlparse
+    from urllib import urlopen, urlencode
+    from urllib2 import HTTPError, build_opener, Request
 
 api_key = 'API_KEY'
 api_secret = 'API_SECRET'
@@ -12,7 +18,7 @@ def push(msg, url=None, article=None, latitude=None, longitude=None, notificatio
 	if (len(msg) > 140):
 		print("Your message has been truncated.")
 	message = msg[0:140]
-	opener = urllib2.build_opener()
+	opener = build_opener()
 	forms = {
 			 "message"    : message,
 	         "api_key"    : api_key,
@@ -34,13 +40,12 @@ def push(msg, url=None, article=None, latitude=None, longitude=None, notificatio
 	if notification_type is not None:
 		forms['notification_type'] = notification_type
 		
-	data = urllib.urlencode(forms)
+	data = urlencode(forms)
 	try:
-		req = urllib2.Request('http://api.push.co//1.0/push', data)
+		req = Request('http://api.push.co//1.0/push', data.encode('UTF-8'))
 		res = opener.open(req)
 		data = res.read()
-		print data
+		print(data)
 		# I could check this for "success":true
-	except urllib2.HTTPError:
-		print "Your message may be too long."
-
+	except HTTPError:
+		print("Your message may be too long.")
