@@ -4,7 +4,7 @@ if api_key == "API_KEY":
 	print("You have not set your API_KEY, go to http://push.co/apps")
 	import sys;sys.exit(1)
 
-def push(msg, url=None, article=None):
+def push(msg, url=None, article=None, latitude=None, longitude=None, notification_type=None):
 	# because push must be 140 characters
 	if (len(msg) > 140):
 		print("Your message has been truncated.")
@@ -20,6 +20,16 @@ def push(msg, url=None, article=None):
 		forms["view_type"] = 1
 	elif article is not None:
 		forms['article'] = article
+	elif longitude is not None or latitude is not None:
+		if latitude == None or longitude == None:
+			print("Please set both latitude and longitude")
+		else:
+			forms["view_type"] = 2
+			forms['latitude'] = latitude
+			forms['longitude'] = longitude
+			
+	if notification_type is not None:
+		forms['notification_type'] = notification_type
 		
 	data = urllib.urlencode(forms)
 	try:
