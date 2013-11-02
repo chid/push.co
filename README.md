@@ -6,3 +6,5 @@ You can just import push and use the function as `push(message)`
 It also takes all the standard arguments as specified by http://push.co/api/push
 
 `push(msg, url=None, article=None, latitude=None, longitude=None, notification_type=None)`
+
+use `push.py3` for python 3.x
